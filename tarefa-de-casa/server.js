@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const pokedexJson = require('./models/pokedex.json')
+const pokedexJson = require('./src/models/pokedex.json')
 
 app.use(express.json())
 
@@ -24,8 +24,8 @@ app.get("/pokedex/:id", (request, response) => {
     response.status(200).send(pokemonEncontrado)
 })
 
-app.get("/pokedex/:name", (request, response) => {
-    let nameRequest = request.query.name.toLocaleLowerCase()
+app.get("/pokedex/buscar/:name", (request, response) => {
+    let nameRequest = request.params.name.toLocaleLowerCase()
     console.log(nameRequest)
     
     let nameEncontrado = pokedexJson.filter(
@@ -34,10 +34,10 @@ app.get("/pokedex/:name", (request, response) => {
     response.status(200).send(nameEncontrado)
 });
 
-app.get("/pokedex/type", (request, response) => {
-    let typeRequest = request.query.type.toLocaleLowerCase()
+app.get("/pokedex/buscar/type/:type", (request, response) => {
+    let typeRequest = request.params.type.toLocaleLowerCase()
     console.log(typeRequest)
     
-    let typeEncontrado = pokedexJson.filter(pokedex => pokedex.type.toLocaleLowerCase().includes(typeRequest))
+    let typeEncontrado = pokedexJson.filter(pokedex => pokedex.type.includes(typeRequest))
     response.status(200).send(typeEncontrado)
 });
